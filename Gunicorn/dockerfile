@@ -1,0 +1,13 @@
+FROM python:3.6
+MAINTAINER admin@mikepeng.cn
+RUN mkdir -p ~/.pip && \
+    touch ~/.pip/pip.conf && \
+    echo '[global]' > ~/.pip/pip.conf && \
+    sed -i '1aindex-url = http://mirrors.aliyun.com/pypi/simple/' ~/.pip/pip.conf && \
+    sed -i '2atrusted-host = mirrors.aliyun.com' ~/.pip/pip.conf && \
+    pip3 install gunicorn
+VOLUME ["/home/app"]
+ENV WORKER=1
+ADD ./demo/* /home/demo/
+EXPOSE 80
+CMD sh /home/demo/app.sh $WORKER
