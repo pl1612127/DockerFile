@@ -1,0 +1,12 @@
+version: '2'
+services:
+  gunicorn:
+    image: gunicorn
+    restart: always
+    container_name: "gunicorn"
+    ports:
+      - "8002:80"
+    volumes:
+      - ./app:/home/app
+    environment:
+      - "WORKER=1"
